@@ -1,0 +1,10 @@
+lvm:
+  vgs:
+    vg_data:
+      devices:
+        - /dev/sdb
+      lvs:
+        lv_users:
+          fs_type: ext4
+          size: 2G
+          mount_point: /users

@@ -1,0 +1,8 @@
+{% set lvm = salt['grains.filter_by']({
+    'Debian': {
+        'packages': ['lvm2'],
+    },
+    'RedHat': {
+        'packages': ['lvm2']
+    },
+}, grain='os_family', merge=salt['pillar.get']('lvm:lookup'), default='Debian') %}
