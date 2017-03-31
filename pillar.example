@@ -8,3 +8,6 @@ lvm:
           fs_type: ext4
           size: 2G
           mount_point: /users
+          format: true
+          mount: true
+          persist: true

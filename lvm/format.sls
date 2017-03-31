@@ -9,6 +9,7 @@ include:
 
 {% for vg_name, vg_params in vgs.items() %}
   {% for lv_name, lv_params in vg_params.get('lvs', {}).items() %}
+    {% if lv_params.format %}
 lvm_vg_{{vg_name}}_lv_{{lv_name}}_format:
   blockdev.formatted:
     - name: /dev/{{vg_name}}/{{lv_name}}
@@ -16,5 +17,6 @@ lvm_vg_{{vg_name}}_lv_{{lv_name}}_format:
     - force: True
     - require:
       - sls: lvm.lv
+    {% endif %}
   {% endfor %}
 {% endfor %}
