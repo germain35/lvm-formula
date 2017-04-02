@@ -15,5 +15,24 @@ lvm_vg_{{vg_name}}_lv_{{lv_name}}:
     - size: {{lv_params.size}}
     - require:
       - sls: lvm.vg
+
+    {% set lv_path = '/dev/' + vg_name + '/' + lv_name %}
+    # get current lv size in KB
+    #{% set lv_size = salt['cmd.run']("lvdisplay " + lv_path + " --units k -C | awk 'FNR > 1 {print $4}' | awk -F, '{print $1}'") %}
+
+lvm_vg_{{vg_name}}_lv_{{lv_name}}_extend:
+  module.run:
+    - name: lvm.lvresize
+    - size: {{lv_params.size}}
+    - lvpath: {{lv_path}}
+    - require:
+      - lvm: lvm_vg_{{vg_name}}_lv_{{lv_name}}
+
+vm_vg_{{vg_name}}_lv_{{lv_name}}_resize2fs:
+  module.run:
+    - name: disk.resize2fs
+    - device: {{lv_path}}
+    - require:
+      - module: lvm_vg_{{vg_name}}_lv_{{lv_name}}_extend
   {% endfor %}
 {% endfor %}

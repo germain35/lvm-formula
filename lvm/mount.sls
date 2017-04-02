@@ -10,7 +10,7 @@ include:
 
 {% for vg_name, vg_params in vgs.items() %}
   {% for lv_name, lv_params in vg_params.get('lvs', {}).items() %}
-    {% if lv_params.mount %}
+    {% if lv_params.mount|default(false) %}
 lvm_vg_{{vg_name}}_lv_{{lv_name}}_mount:
   mount.mounted:
     - name: {{lv_params.mount_point}}

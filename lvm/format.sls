@@ -9,7 +9,7 @@ include:
 
 {% for vg_name, vg_params in vgs.items() %}
   {% for lv_name, lv_params in vg_params.get('lvs', {}).items() %}
-    {% if lv_params.format %}
+    {% if lv_params.format|default(false) %}
 lvm_vg_{{vg_name}}_lv_{{lv_name}}_format:
   blockdev.formatted:
     - name: /dev/{{vg_name}}/{{lv_name}}
