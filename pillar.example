@@ -11,4 +11,4 @@ lvm:
           format: true
           mount: true
           persist: true
-          extend: true
+          resize: true
