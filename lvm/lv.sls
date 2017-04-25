@@ -12,7 +12,11 @@ lvm_vg_{{vg_name}}_lv_{{lv_name}}:
   lvm.lv_present:
     - name: {{lv_name}}
     - vgname: {{vg_name}}
+    {%- if lv_params.size is defined %}
     - size: {{lv_params.size}}
+    {%- elif lv_params.extents is defined %}
+    - extents: {{lv_params.extents}}
+    {%- endif %}
     - require:
       - sls: lvm.vg
 
