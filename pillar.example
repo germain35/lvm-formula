@@ -1,14 +1,33 @@
 lvm:
-  vgs:
-    vg_data:
-      devices:
-        - /dev/sdb
-      lvs:
-        lv_users:
-          fs_type: ext4
-          size: 2G
-          mount_point: /users
-          format: true
-          mount: true
-          persist: true
-          resize: true
+  absent:
+    lvs:
+      lv_delete:
+        vg: vg_root
+        mount_point: /delete
+  present:
+    vgs:
+      vg_root:
+        devices:
+          - /dev/sda6
+        lvs:
+          lv_var:
+            size: 10G
+            fs_type: ext4
+            resize: true
+          lv_data:
+            extents: '90%FREE'
+            fs_type: ext4
+            format: true
+            mount_point: /data
+            mount: true
+      vg_data:
+        devices:
+          - /dev/sdb
+        lvs:
+          lv_users:
+            extents: '90%FREE'
+            resize: false
+            format: true
+            fs_type: ext4
+            mount: true
+            mount_point: /users
