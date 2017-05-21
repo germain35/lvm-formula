@@ -1,6 +1,6 @@
 {% from "lvm/map.jinja" import lvm with context %}
 
-{% set vgs = salt['pillar.get']('lvm:vgs', {}) %}
+{% set vgs = salt['pillar.get']('lvm:present:vgs', {}) %}
 
 include:
   - lvm.install
@@ -33,7 +33,7 @@ lvm_vg_{{vg_name}}_lv_{{lv_name}}_resize:
     - require:
       - lvm: lvm_vg_{{vg_name}}_lv_{{lv_name}}
 
-vm_vg_{{vg_name}}_lv_{{lv_name}}_resize2fs:
+lvm_vg_{{vg_name}}_lv_{{lv_name}}_resize2fs:
   module.run:
     - name: disk.resize2fs
     - device: {{lv_path}}

@@ -1,6 +1,6 @@
 {% from "lvm/map.jinja" import lvm with context %}
 
-{% set vgs = salt['pillar.get']('lvm:vgs', {}) %}
+{% set vgs = salt['pillar.get']('lvm:present:vgs', {}) %}
 
 include:
   - lvm.install
