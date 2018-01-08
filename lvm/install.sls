@@ -2,4 +2,4 @@
 
 lvm_packages:
   pkg.installed:
-    - pkgs: {{ lvm.packages  }}
+    - pkgs: {{ lvm.pkgs  }}

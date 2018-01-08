@@ -1,8 +1,24 @@
-{% set lvm = salt['grains.filter_by']({
+# -*- coding: utf-8 -*-
+# vim: ft=jinja:ts=2:sw=2
+
+{## Start with  defaults from defaults.sls ##}
+#{% import_yaml "lvm/defaults.yaml" as default_settings %}
+
+{% set os_family_map = salt['grains.filter_by']({
     'Debian': {
-        'packages': ['lvm2'],
+        'pkgs': ['lvm2'],
     },
     'RedHat': {
-        'packages': ['lvm2']
+        'pkgs': ['lvm2']
     },
 }, grain='os_family', merge=salt['pillar.get']('lvm:lookup'), default='Debian') %}
+
+{## Merge the flavor_map to the default settings ##}
+{% do default_settings.lvm.update(os_family_map) %}
+
+{## Merge in pillar ##}
+{% set lvm = salt['pillar.get'](
+  'lvm',
+  default=default_settings.lvm,
+  merge=True)
+%}

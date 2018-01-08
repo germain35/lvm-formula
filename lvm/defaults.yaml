@@ -1,0 +1,6 @@
+lvm:
+  format:
+    enabled: False
+    force: True
+  mount:
+    persist: True
