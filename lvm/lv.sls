@@ -27,16 +27,16 @@ lvm_vg_{{vg_name}}_lv_{{lv_name}}:
 
 lvm_vg_{{vg_name}}_lv_{{lv_name}}_resize:
   module.run:
-    - name: lvm.lvresize
-    - size: {{lv_params.size}}
-    - lvpath: {{lv_path}}
+    - lvm.lvresize:
+      - size: {{lv_params.size}}
+      - lvpath: {{lv_path}}
     - require:
       - lvm: lvm_vg_{{vg_name}}_lv_{{lv_name}}
 
 lvm_vg_{{vg_name}}_lv_{{lv_name}}_resize2fs:
   module.run:
-    - name: disk.resize2fs
-    - device: {{lv_path}}
+    - disk.resize2fs:
+      - device: {{lv_path}}
     - require:
       - module: lvm_vg_{{vg_name}}_lv_{{lv_name}}_resize
     {% endif %}
