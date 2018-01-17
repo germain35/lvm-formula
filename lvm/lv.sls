@@ -26,10 +26,8 @@ lvm_vg_{{vg_name}}_lv_{{lv_name}}:
     - require:
       - sls: lvm.vg
 
-    {%- if lv_params.resize|default(false) %}
-      {%- set lv_path = '/dev/' + vg_name + '/' + lv_name %}
-      # get current lv size in KB
-      {# set lv_size = salt['cmd.shell']("lvdisplay " + lv_path + " --units k -C | awk 'FNR > 1 {print $4}' | awk -F, '{print $1}'") #}
+    {%- if lv_params.resize|default(False) %}
+      {%- set lv_path = lvm.fs_root|path_join(vg_name, lv_name)%}
 {%- if lv_params.size is defined %}
 lvm_vg_{{vg_name}}_lv_{{lv_name}}_resize:
   module.run:

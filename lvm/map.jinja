@@ -7,9 +7,11 @@
 {% set os_family_map = salt['grains.filter_by']({
     'Debian': {
         'pkgs': ['lvm2'],
+        'fs_root': '/dev/mapper'
     },
     'RedHat': {
-        'pkgs': ['lvm2']
+        'pkgs': ['lvm2'],
+        'fs_root': '/dev/mapper'
     },
 }, grain='os_family', merge=salt['pillar.get']('lvm:lookup'), default='Debian') %}
 
