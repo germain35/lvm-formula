@@ -12,7 +12,7 @@ include:
     {%- if lv_params.format|default(lvm.format.enabled) %}
 lvm_vg_{{vg_name}}_lv_{{lv_name}}_format:
   blockdev.formatted:
-    - name: {{lvm.fs_root|path_join(vg_name, lv_name)}}
+    - name: {{lvm.fs_root|path_join(vg_name) ~ '-' ~ lv_name}}
     - fs_type: {{lv_params.fs_type}}
     - force: {{lv_params.force|default(lvm.format.force)}}
     - require:

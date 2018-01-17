@@ -27,7 +27,7 @@ lvm_vg_{{vg_name}}_lv_{{lv_name}}:
       - sls: lvm.vg
 
     {%- if lv_params.resize|default(False) %}
-      {%- set lv_path = lvm.fs_root|path_join(vg_name, lv_name)%}
+      {%- set lv_path = lvm.fs_root|path_join(vg_name) ~ '-' ~ lv_name %}
         {%- if lv_params.size is defined %}
 lvm_vg_{{vg_name}}_lv_{{lv_name}}_resize:
   module.run:
