@@ -20,8 +20,10 @@ lvm_vg_{{vg_name}}_lv_{{lv_name}}_mount:
     - persist: {{ lv_params.persist|default(lvm.mount.persist) }}
     - opts:
       - defaults
+      {%- if lv_params.format|default(lvm.format.enabled) %}
     - require:
       - sls: lvm.format
+      {%- endif %}
     {%- endif %}
   {%- endfor %}
 {%- endfor %}
