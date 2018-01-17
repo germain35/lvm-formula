@@ -28,23 +28,23 @@ lvm_vg_{{vg_name}}_lv_{{lv_name}}:
 
     {%- if lv_params.resize|default(False) %}
       {%- set lv_path = lvm.fs_root|path_join(vg_name, lv_name)%}
-{%- if lv_params.size is defined %}
+        {%- if lv_params.size is defined %}
 lvm_vg_{{vg_name}}_lv_{{lv_name}}_resize:
   module.run:
     - lvm.lvresize:
       - size: {{lv_params.size}}
       - lvpath: {{lv_path}}
-    - require_in:
+    - watch_in:
       - module: lvm_vg_{{vg_name}}_lv_{{lv_name}}_resize2fs
     - require:
       - lvm: lvm_vg_{{vg_name}}_lv_{{lv_name}}
-{%- endif %}
+        {%- endif %}
 
 lvm_vg_{{vg_name}}_lv_{{lv_name}}_resize2fs:
-  module.run:
+  module.wait:
     - disk.resize2fs:
       - device: {{lv_path}}
-    - require:
+    - watch:
       - lvm: lvm_vg_{{vg_name}}_lv_{{lv_name}}
     {%- endif %}
   {%- endfor %}
